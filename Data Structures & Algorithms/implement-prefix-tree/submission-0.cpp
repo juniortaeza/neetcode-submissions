@@ -1,0 +1,59 @@
+class PrefixTree {
+private:
+    struct PrefixTreeNode{
+        PrefixTreeNode* children[26];
+        bool isWord;
+
+        PrefixTreeNode(){
+            for(int i = 0; i < 26; i++)
+                children[i] = nullptr;
+            isWord = false;
+        }
+    };
+
+    PrefixTreeNode* root;
+
+public:
+    PrefixTree() {
+        root = new PrefixTreeNode();
+    }
+    
+    void insert(string word) {
+        PrefixTreeNode* node = root;
+        int curr = 0;
+
+        for(int i = 0; i < word.size(); i++){
+            curr = word[i] - 'a';
+            if(node->children[curr] == nullptr)
+                node->children[curr] = new PrefixTreeNode();
+            node = node->children[curr];
+        }
+        node->isWord = true;
+    }
+    
+    bool search(string word) {
+        PrefixTreeNode* node = root;
+        int curr = 0;
+
+        for(int i = 0; i < word.size(); i++){
+            curr = word[i] - 'a';
+            if(node->children[curr] == nullptr)
+                return false;
+            node = node->children[curr];
+        }
+        return node->isWord;
+    }
+    
+    bool startsWith(string prefix) {
+        PrefixTreeNode* node = root;
+        int curr = 0;
+
+        for(int i = 0; i < prefix.size(); i++){
+            curr = prefix[i] - 'a';
+            if(node->children[curr] == nullptr)
+                return false;
+            node = node->children[curr];
+        }
+        return true;
+    }
+};

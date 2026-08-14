@@ -1,0 +1,22 @@
+class Solution {
+private:
+    void backtrack(int n, int openN, int closedN, string current, vector<string>& res){
+        if(openN == closedN && openN == n & closedN == n){
+            res.push_back(current);
+            return;
+        }
+
+        if(openN < n)
+            backtrack(n, openN+1, closedN, current+"(", res);
+
+        if(closedN < openN)
+            backtrack(n, openN, closedN+1, current+")", res);
+    }
+
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> res;
+        backtrack(n, 0, 0, "", res);
+        return res;
+    }
+};
